@@ -1,0 +1,10 @@
+check_name,passed,detail
+account_id is unique,true,3446 rows
+subscription_id is unique,true,5525 rows
+invoice_id is unique,true,28775 rows
+every subscription belongs to a known account,true,0 orphans
+every invoice belongs to a known subscription of the same account,true,0 bad
+subscription periods are valid (end after start),true,0 bad
+an account never has two subscriptions at once,true,0 overlaps
+mrr = seats x seat price (x 0.85 for annual billing),true,0 mismatches
+invoice amounts are positive and paid invoices have a paid date,true,0 bad

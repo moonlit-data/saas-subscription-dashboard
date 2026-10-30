@@ -1,0 +1,3 @@
+plan,churn_rate_jan_jun_pct,churned_jul_sep,expected_at_old_rate,excess_churned_accounts,excess_churned_mrr,mrr_gained_by_repricing_jul,net_mrr_effect
+Starter,3.57,132,53.7,78.3,1942.17,2766.00,823.83
+Growth,4.32,26,31.1,-5.1,-670.81,,

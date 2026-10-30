@@ -1,0 +1,53 @@
+// DAX measures for the Power BI version of the dashboard.
+// Model: fact_account_month[month] -> dim_date[date] (many-to-one), fact_account_month[account_id] ->
+// dim_account[account_id] (many-to-one). Mark dim_date as the date table.
+// Each fact row is one account in one month; month is the first day of the month, MRR is month-end MRR.
+// Check: for December 2025 and all segments these must give the values in results/kpi_monthly.csv
+// (MRR 475,967.25; paying accounts 2,212; logo churn 2.82%; NRR 12m 98.6%).
+
+MRR =
+CALCULATE (
+    SUM ( fact_account_month[mrr] ),
+    LASTDATE ( fact_account_month[month] )        // a quarter or year shows its last month, not a sum
+)
+
+ARR = [MRR] * 12
+
+Paying Accounts =
+CALCULATE (
+    COUNTROWS ( fact_account_month ),
+    fact_account_month[mrr] > 0,
+    LASTDATE ( fact_account_month[month] )
+)
+
+ARPPU = DIVIDE ( [MRR], [Paying Accounts] )
+
+New MRR = CALCULATE ( SUM ( fact_account_month[mrr_change] ), fact_account_month[movement] = "new" )
+Expansion MRR = CALCULATE ( SUM ( fact_account_month[mrr_change] ), fact_account_month[movement] = "expansion" )
+Reactivation MRR = CALCULATE ( SUM ( fact_account_month[mrr_change] ), fact_account_month[movement] = "reactivation" )
+Contraction MRR = CALCULATE ( SUM ( fact_account_month[mrr_change] ), fact_account_month[movement] = "contraction" )
+Churned MRR = CALCULATE ( SUM ( fact_account_month[mrr_change] ), fact_account_month[movement] = "churn" )
+Net New MRR = SUM ( fact_account_month[mrr_change] )
+
+Churned Accounts = CALCULATE ( COUNTROWS ( fact_account_month ), fact_account_month[movement] = "churn" )
+
+Paying Accounts At Start =
+CALCULATE ( COUNTROWS ( fact_account_month ), fact_account_month[prev_mrr] > 0 )
+
+Logo Churn % = DIVIDE ( [Churned Accounts], [Paying Accounts At Start] )
+
+// Trailing-12-month retention of the accounts that paid 12 months earlier (use per month)
+NRR 12m =
+DIVIDE (
+    CALCULATE ( SUM ( fact_account_month[mrr] ), fact_account_month[mrr_12m_ago] > 0 ),
+    SUM ( fact_account_month[mrr_12m_ago] )
+)
+
+GRR 12m =
+DIVIDE (
+    SUMX (
+        FILTER ( fact_account_month, fact_account_month[mrr_12m_ago] > 0 ),
+        MIN ( fact_account_month[mrr], fact_account_month[mrr_12m_ago] )
+    ),
+    SUM ( fact_account_month[mrr_12m_ago] )
+)

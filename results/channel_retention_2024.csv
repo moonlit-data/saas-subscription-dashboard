@@ -1,0 +1,17 @@
+channel,segment,accounts,still_paying_after_12m_pct,revenue_retention_12m_pct
+Organic,All,593,62.2,80.1
+Organic,Enterprise,12,91.7,107.9
+Organic,Mid-Market,108,78.7,75.0
+Organic,SMB,473,57.7,78.2
+Outbound Sales,All,52,94.2,142.7
+Outbound Sales,Enterprise,14,100.0,148.2
+Outbound Sales,Mid-Market,34,94.1,134.7
+Outbound Sales,SMB,4,75.0,114.8
+Paid Search,All,378,59.8,90.5
+Paid Search,Enterprise,7,85.7,91.2
+Paid Search,Mid-Market,54,83.3,101.4
+Paid Search,SMB,317,55.2,77.9
+Partner,All,135,83.0,98.7
+Partner,Enterprise,13,92.3,110.4
+Partner,Mid-Market,91,87.9,94.6
+Partner,SMB,31,64.5,110.9
